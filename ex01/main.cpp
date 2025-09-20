@@ -9,13 +9,17 @@ int main()
 {
     int N = 4;
     Animal* arr[N];
+
+    // create cats
     for (int i = 0; i < N/2; i++) {
         arr[i] = new Cat();
-        Cat->show_data();
+        arr[i]->show_data();
     }
+
+    // create dogs
     for (int i = N/2; i < N; i++) {
         arr[i] = new Dog();
-        Dog.show_data();
+        arr[i]->show_data();
     }
 
 

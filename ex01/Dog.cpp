@@ -11,14 +11,18 @@ Dog::Dog(std::string _type) {
     std::cout << "Dog parameterized constructor called." << std::endl;
 };
 
-Dog::Dog(const Dog& other) : Animal(other), Archi(other.Archi) {
+Dog::Dog(const Dog& other) : Animal(other){
+    Archi = new Brain;
+    *Archi = *(other.Archi);
     std::cout << "Dog copy constructor called." << std::endl;
 };
 
 Dog& Dog::operator=(const Dog& other) {
     if (this != &other) {
         Animal::operator=(other);
-        Archi = other.Archi;
+        delete Archi;
+        Archi = new Brain;
+        *Archi = *(other.Archi);
     }
     std::cout << "Dog assignment operator called." << std::endl;
     return *this;

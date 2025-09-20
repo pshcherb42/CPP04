@@ -12,14 +12,18 @@ Cat::Cat(std::string _type) {
     std::cout << "Cat parameterized constructor called." << std::endl;
 };
 
-Cat::Cat(const Cat& other) : Animal(other), Cazuchi(other.Cazuchi) {
+Cat::Cat(const Cat& other) : Animal(other) {
+    Cazuchi = new Brain;
+    *Cazuchi = *(other.Cazuchi);
     std::cout << "Cat copy constructor called." << std::endl;
 };
 
 Cat& Cat::operator=(const Cat& other) {
     if (this != &other) {
         Animal::operator=(other);
-        Cazuchi = other.Cazuchi;
+        delete Cazuchi;
+        Cazuchi = new Brain;
+        *Cazuchi = *(other.Cazuchi);
     }
     std::cout << "Cat assignment operator called." << std::endl;
     return *this;
