@@ -12,7 +12,8 @@ class Animal {
         Animal(const Animal& other);
         Animal& operator=(const Animal& other);
 
-        virtual void makeSound() const; // virtual function for polymorphism
+        virtual void makeSound() const = 0; // virtual function for polymorphism
+        virtual void show_data() = 0;
         const std::string getType() const;
         
         virtual ~Animal();
