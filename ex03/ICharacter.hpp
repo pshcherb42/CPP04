@@ -1,5 +1,8 @@
 #ifndef ICHARACTER_HPP
 #define ICHARACTER_HPP
+#include <string>
+
+class AMateria; // forward declaration
 
 class ICharacter
 {

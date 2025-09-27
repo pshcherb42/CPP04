@@ -1,4 +1,5 @@
 #include "Character.hpp"
+std::vector<AMateria*> Character::_floor; // definir la variable estatica
 
 Character::Character() : _name("Default name") {
     for (int i = 0; i < 4; i++)
@@ -63,8 +64,9 @@ void Character::unequip(int idx) {
     if (idx < 0 || idx > 3) return;
 
     if (_inventory[idx]) {
-        delete _inventory[idx];
-        _inventory[idx] = NULL;
+        // delete _inventory[idx]; no hacer delete solo remover del inventario
+        _floor.push_back(_inventory[idx]); // guardar en el suelo
+        _inventory[idx] = NULL;           // remover del inventario
     }
 };
 void Character::use(int idx, ICharacter& target) {
@@ -72,3 +74,10 @@ void Character::use(int idx, ICharacter& target) {
     if (_inventory[idx])
         _inventory[idx]->use(target);
 };
+
+void Character::cleanFloor() {
+    for (size_t i = 0; i < _floor.size(); i++) {
+        delete _floor[i];
+    }
+    _floor.clear();
+}
