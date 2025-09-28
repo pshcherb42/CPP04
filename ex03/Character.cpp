@@ -6,11 +6,13 @@ Character::Character() : _name("Default name") {
         _inventory[i] = NULL;
     std::cout << "Character default constructor called." << std::endl;
 };
+
 Character::Character(std::string const & type) : _name(type) {
     for (int i = 0; i < 4; i++)
         _inventory[i] = NULL;
     std::cout << "Character parameterized constructor called." << std::endl;
 };
+
 Character::Character(const Character& other) : _name(other._name) {
     for (int i = 0; i < 4; i++) {
         if (other._inventory[i])
@@ -20,6 +22,7 @@ Character::Character(const Character& other) : _name(other._name) {
     }
     std::cout << "Character copy constructor called." << std::endl;
 };
+
 Character &Character::operator=(const Character& other) {
     if (this != &other) {
         _name = other._name;
@@ -38,17 +41,15 @@ Character &Character::operator=(const Character& other) {
     std::cout << "Character assigment operator called." << std::endl;
     return *this;
 };
-Character::~Character() {
-    for (int i = 0; i < 4; i++) {
-        if (_inventory[i])
-            delete _inventory[i];
-    }
-    std::cout << "Character destructor called." << std::endl;
-};
 
 std::string const & Character::getName() const {
     return (_name);
 };
+
+size_t Character::getFloorSize() {
+    return (_floor.size());
+};
+
 void Character::equip(AMateria* m) {
     if (!m) return;
 
@@ -60,6 +61,7 @@ void Character::equip(AMateria* m) {
    }
    // si llegamos aqui y el inventario esta lleno no hacer nada
 };
+
 void Character::unequip(int idx) {
     if (idx < 0 || idx > 3) return;
 
@@ -69,6 +71,7 @@ void Character::unequip(int idx) {
         _inventory[idx] = NULL;           // remover del inventario
     }
 };
+
 void Character::use(int idx, ICharacter& target) {
     if (idx < 0 || idx > 3) return;
     if (_inventory[idx])
@@ -81,3 +84,11 @@ void Character::cleanFloor() {
     }
     _floor.clear();
 }
+
+Character::~Character() {
+    for (int i = 0; i < 4; i++) {
+        if (_inventory[i])
+            delete _inventory[i];
+    }
+    std::cout << "Character destructor called." << std::endl;
+};

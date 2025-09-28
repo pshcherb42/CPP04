@@ -1,0 +1,124 @@
+### Explanation of Destruction Chaining Without the `virtual` Keyword
+
+In C++, when a base class destructor is **not virtual**, the destructor of the derived class will **not be called** if you delete an object through a pointer to the base class. This can lead to **resource leaks** because the derived class's destructor (and any cleanup it performs) will not execute.
+
+#### Why This Happens
+When you delete an object through a base class pointer, the type of the pointer determines which destructor is called. If the destructor is not virtual, only the base class destructor is executed, and the derived class destructor is skipped.
+
+#### Example Without `virtual`
+```cpp
+#include <iostream>
+
+class Animal {
+public:
+    Animal() { std::cout << "Animal constructor called." << std::endl; }
+    ~Animal() { std::cout << "Animal destructor called." << std::endl; }
+};
+
+class Dog : public Animal {
+public:
+    Dog() { std::cout << "Dog constructor called." << std::endl; }
+    ~Dog() { std::cout << "Dog destructor called." << std::endl; }
+};
+
+int main() {
+    Animal* animal = new Dog();
+    delete animal; // Only Animal destructor will be called
+    return 0;
+}
+```
+
+#### Output Without `virtual`
+```
+Animal constructor called.
+Dog constructor called.
+Animal destructor called.
+```
+Notice that the `Dog` destructor is **not called**, which can lead to resource leaks if the `Dog` class allocates dynamic memory or performs other cleanup tasks.
+
+---
+
+### Correct Behavior With `virtual`
+When the base class destructor is declared as `virtual`, the derived class destructor is also called when deleting an object through a base class pointer. This ensures proper cleanup of resources.
+
+#### Example With `virtual`
+```cpp
+#include <iostream>
+
+class Animal {
+public:
+    Animal() { std::cout << "Animal constructor called." << std::endl; }
+    virtual ~Animal() { std::cout << "Animal destructor called." << std::endl; }
+};
+
+class Dog : public Animal {
+public:
+    Dog() { std::cout << "Dog constructor called." << std::endl; }
+    ~Dog() { std::cout << "Dog destructor called." << std::endl; }
+};
+
+int main() {
+    Animal* animal = new Dog();
+    delete animal; // Both Dog and Animal destructors will be called
+    return 0;
+}
+```
+
+#### Output With `virtual`
+```
+Animal constructor called.
+Dog constructor called.
+Dog destructor called.
+Animal destructor called.
+```
+Now both the `Dog` destructor and the 
+
+Animal
+
+ destructor are called, ensuring proper cleanup.
+
+---
+
+### Testing It in Your Codebase
+In your codebase, the 
+
+Animal
+
+ destructor is already declared as `virtual`:
+```cpp
+virtual ~Animal();
+```
+If you remove the `virtual` keyword, you can test the behavior by creating and deleting objects through base class pointers:
+
+#### Test Code
+```cpp
+int main() {
+    const Animal* animal = new Dog();
+    delete animal; // Test without virtual destructor in Animal
+    return 0;
+}
+```
+
+#### Expected Output Without `virtual`
+```
+Animal default constructor called.
+Dog default constructor called.
+Animal destructor called.
+```
+The `Dog` destructor will not be called, leading to potential resource leaks.
+
+#### Expected Output With `virtual`
+```
+Animal default constructor called.
+Dog default constructor called.
+Dog destructor called.
+Animal destructor called.
+```
+Both destructors are called, ensuring proper cleanup.
+
+---
+
+### Conclusion
+- Without `virtual`, only the base class destructor is called, and derived class destructors are skipped, leading to resource leaks.
+- With `virtual`, the correct destructor chaining occurs, ensuring proper cleanup.
+- Always declare destructors as `virtual` in base classes when using polymorphism to avoid undefined behavior and resource leaks.

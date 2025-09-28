@@ -26,6 +26,7 @@ Cure::~Cure() {
 }
 
 AMateria* Cure::clone() const {
+    std::cout << "Cloning Cure Materia" << std::endl;
     AMateria* clone = new Cure;
     return (clone);
 }

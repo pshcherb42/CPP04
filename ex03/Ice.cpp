@@ -26,6 +26,7 @@ Ice::~Ice() {
 }
 
 AMateria* Ice::clone() const {
+    std::cout << "Cloning Ice Materia" << std::endl;
     AMateria* clone = new Ice;
     return (clone);
 }

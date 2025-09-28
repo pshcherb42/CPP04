@@ -2,7 +2,7 @@
 
 Dog::Dog() {
     type = "Dog";
-    Archi = new Brain();
+    brain = new Brain();
     std::cout << "Dog default constructor called." << std::endl;
 };
 
@@ -12,17 +12,17 @@ Dog::Dog(std::string _type) {
 };
 
 Dog::Dog(const Dog& other) : Animal(other){
-    Archi = new Brain;
-    *Archi = *(other.Archi);
+    brain = new Brain;
+    *brain = *(other.brain);
     std::cout << "Dog copy constructor called." << std::endl;
 };
 
 Dog& Dog::operator=(const Dog& other) {
     if (this != &other) {
         Animal::operator=(other);
-        delete Archi;
-        Archi = new Brain;
-        *Archi = *(other.Archi);
+        delete brain;
+        brain = new Brain;
+        *brain = *(other.brain);
     }
     std::cout << "Dog assignment operator called." << std::endl;
     return *this;
@@ -33,10 +33,10 @@ void Dog::makeSound() const{
 };
 
 void Dog::show_data() {
-    std::cout << "Brain object pointing to = " << Archi << std::endl;
+    std::cout << "Brain object pointing to = " << brain << std::endl;
 };
 
 Dog::~Dog() {
-    delete Archi;
+    delete brain;
     std::cout << "Dog destructor called." << std::endl;
 }

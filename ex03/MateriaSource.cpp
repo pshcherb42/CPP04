@@ -37,13 +37,6 @@ MateriaSource &MateriaSource::operator=(const MateriaSource& other) {
     std::cout << "MateriaSource assigment operator called." << std::endl;
     return *this;
 };
-MateriaSource::~MateriaSource() {
-    for (int i = 0; i < 4; i++) {
-        if (_inventory[i])
-            delete _inventory[i];
-    }
-    std::cout << "MateriaSource destructor called." << std::endl;
-};
 
 void MateriaSource::learnMateria(AMateria* materia) {
     if (!materia) return;
@@ -55,6 +48,7 @@ void MateriaSource::learnMateria(AMateria* materia) {
         }
     }
 };
+
 AMateria* MateriaSource::createMateria(std::string const & type) {
     for (int i = 0; i < 4; i++) {
         if (_inventory[i] && _inventory[i]->getType() == type) {
@@ -62,4 +56,12 @@ AMateria* MateriaSource::createMateria(std::string const & type) {
         }
     }
     return NULL;
+};
+
+MateriaSource::~MateriaSource() {
+    for (int i = 0; i < 4; i++) {
+        if (_inventory[i])
+            delete _inventory[i];
+    }
+    std::cout << "MateriaSource destructor called." << std::endl;
 };

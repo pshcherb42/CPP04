@@ -15,7 +15,7 @@ class Cat : public Animal {
         virtual void makeSound() const;
         virtual void show_data();
 
-        ~Cat();
+        virtual ~Cat();
 };
 
 #endif

@@ -1,0 +1,52 @@
+Correcto, en C++ el polimorfismo funciona correctamente cuando se utilizan **punteros** o **referencias** a objetos base. Esto se debe a que el polimorfismo dinámico en C++ se basa en el uso de **tablas de métodos virtuales (vtable)**, las cuales se resuelven en tiempo de ejecución. Si no usas punteros o referencias, el tipo del objeto se resuelve en tiempo de compilación, lo que resulta en **ligadura estática** en lugar de **ligadura dinámica**.
+
+Por ejemplo:
+
+```cpp
+#include "Animal.hpp"
+#include "Dog.hpp"
+#include "Cat.hpp"
+
+int main()
+{
+    Animal meta;
+    Dog j;
+    Cat i;
+
+    std::cout << j.getType() << " " << std::endl;
+    std::cout << i.getType() << " " << std::endl;
+
+    i.makeSound(); // Esto llamará a Cat::makeSound()
+    j.makeSound(); // Esto llamará a Dog::makeSound()
+    meta.makeSound(); // Esto llamará a Animal::makeSound()
+
+    return 0;
+}
+```
+
+En este caso, aunque 
+
+Dog
+
+ y 
+
+Cat
+
+ heredan de 
+
+Animal
+
+, no se produce polimorfismo porque los objetos no se manejan a través de punteros o referencias. Cada llamada a un método se resuelve en tiempo de compilación según el tipo estático del objeto.
+
+Para que el polimorfismo funcione, necesitas usar punteros o referencias al tipo base (
+
+Animal
+
+):
+
+```cpp
+const Animal* j = new Dog();
+const Animal* i = new Cat();
+```
+
+Esto asegura que las llamadas a métodos virtuales se resuelvan dinámicamente en tiempo de ejecución, permitiendo que se invoque el método correcto según el tipo real del objeto.

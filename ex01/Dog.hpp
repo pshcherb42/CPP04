@@ -5,7 +5,7 @@
 
 class Dog : public Animal {
     private:
-        Brain* Archi;
+        Brain* brain;
     public:
         Dog();
         Dog(std::string _type);
@@ -15,7 +15,7 @@ class Dog : public Animal {
         virtual void makeSound() const;
         virtual void show_data();
 
-        ~Dog();
+        virtual ~Dog();
 };
 
 #endif
